@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AndroDip</string>
+    <string name="action_settings">Settings</string>
+    <string name="dip_sw_1">1</string>
+    <string name="dip_sw_2">2</string>
+    <string name="dip_sw_3">3</string>
+    <string name="dip_sw_4">4</string>
+    <string name="dip_sw_5">5</string>
+    <string name="dip_sw_6">6</string>
+    <string name="dip_sw_7">7</string>
+    <string name="dip_sw_8">8</string>
+    <string name="dip_sw_9">9</string>
+
+    <string name="dip_addr_1">1</string>
+    <string name="dip_addr_2">2</string>
+    <string name="dip_addr_3">4</string>
+    <string name="dip_addr_4">8</string>
+    <string name="dip_addr_5">16</string>
+    <string name="dip_addr_6">32</string>
+    <string name="dip_addr_7">64</string>
+    <string name="dip_addr_8">128</string>
+    <string name="dip_addr_9">256</string>
+    <string name="hint_start">DMX</string>
+    <string name="hint_span">CH.</string>
+    <string name="hint_clear">Clear</string>
+
+    <string name="share">Share</string>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_addr">Address Display</string>
+    <string name="pref_addr_summary">Display Switch or Address Values</string>
+    <string name="string_version">1.2</string>
+    <string name="about_new">Whats New</string>
+    <string name="about_new_details">
+        <b>➣</b>
+        Table based dip switch results\n
+        <b>➣</b>
+        Channel count or span\n
+        <b>➣</b>
+        Reverse lookup using top switches\n
+        <b>➣</b>
+        Light and Dark themes (3.0+)
+    </string>
+    <string name="about_soon">Coming soon</string>
+    <string name="about_soon_details">
+        <b>➣</b>
+        Share your settings via Email\n
+        <b>➣</b>
+        Fix themes in older android os
+    </string>
+    <string name="follow_us">Follow us on Google Plus</string>
+    <string name="action_about">About</string>
+
+
+    <!-- Strings related to Settings -->
+    <string name="pref_offset">Offset</string>
+    <string name="pref_offset_summary">0 or 1 Based Dip Switches</string>
+
+    <string name="pref_vib">Haptic duration</string>
+    <string name="pref_vib_summary">Set the duration of key vibration</string>
+
+    <string name="pref_theme">Theme</string>
+    <string name="pref_theme_summary">Current theme name here</string>
+
+    <string-array name="pref_offset_list_titles">
+        <item>DMX 1 = Switch 1 ON</item>
+        <item>DMX 1 = All Switches OFF</item>
+    </string-array>
+    <string-array name="pref_offset_list_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="pref_vib_list_titles">
+        <item>Short</item>
+        <item>Medium</item>
+        <item>Long</item>
+    </string-array>
+    <string-array name="pref_vib_list_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="pref_theme_list_titles">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <string-array name="pref_theme_list_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="pref_addr_list_titles">
+        <item>Switch Number (1, 2, 3, 4, ... 9)</item>
+        <item>Switch Value (1, 2, 4, 8, ... 256)</item>
+    </string-array>
+    <string-array name="pref_addr_list_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+</resources>

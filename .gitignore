@@ -1,0 +1,13 @@
+# built files
+build/
+
+#Local Config
+local.properties
+
+#OSX
+.DS_Store
+
+#Android Studio
+.idea
+
+.gradle

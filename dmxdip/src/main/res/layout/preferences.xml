@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+    <ListPreference
+            android:key="pref_offset2"
+            android:defaultValue="0"
+            android:entries="@array/pref_offset_list_titles"
+            android:entryValues="@array/pref_offset_list_values"
+            android:title="@string/pref_offset"
+            android:summary="@string/pref_offset_summary"/>
+
+    <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/pref_vib_list_titles"
+            android:entryValues="@array/pref_vib_list_values"
+            android:key="pref_vib"
+            android:summary="@string/pref_vib_summary"
+            android:title="@string/pref_vib"/>
+
+    <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/pref_addr_list_titles"
+            android:entryValues="@array/pref_addr_list_values"
+            android:key="pref_addr"
+            android:summary="@string/pref_addr_summary"
+            android:title="@string/pref_addr"/>
+
+    <ListPreference
+            android:id="@+id/settingsTheme"
+            android:defaultValue="0"
+            android:entries="@array/pref_theme_list_titles"
+            android:entryValues="@array/pref_theme_list_values"
+            android:key="pref_theme"
+            android:summary="@string/pref_theme_summary"
+            android:title="@string/pref_theme"/>
+
+</PreferenceScreen>
