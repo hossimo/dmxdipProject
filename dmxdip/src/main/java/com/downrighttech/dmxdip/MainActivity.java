@@ -62,11 +62,12 @@ public class MainActivity
     private Vibrator vib;
     private ShareActionProvider mShareActionProvider;
     private Boolean mSkipProcess;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences mSharedPreferences;
     private int mCurrentTheme;
     private int mLastAddress;
     private boolean mOffset;
     private Intent mShareIntent;
+    private ThemeManager mThemeManager;
 
     //private FileOutputStream fileOS;
     //private Preference preference;
@@ -109,16 +110,15 @@ public class MainActivity
     //@SuppressWarnings("unused")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mThemeManager = new ThemeManager(VERSION.SDK_INT);
+
         super.onCreate(savedInstanceState);
         // load preferences
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Load Theme from preferences
-        if (sharedPreferences.getString("pref_theme", "0").equals("0")) {
-            mCurrentTheme = android.R.style.Theme_Holo_Light;
-        } else
-            mCurrentTheme = android.R.style.Theme_Holo;
-        setTheme(mCurrentTheme);
+        mThemeManager.setTheme(Integer.parseInt(mSharedPreferences.getString("pref_theme", "0")));
+        setTheme (mThemeManager.getTheme());
 
         setContentView(R.layout.activity_main);
 
@@ -192,8 +192,16 @@ public class MainActivity
 
     @Override
     protected void onStart() {
-        super.onStart();
         Log.v("lifeCycle", "onStart");
+        super.onStart();
+
+        if (mThemeManager.getInt() != Integer.parseInt(mSharedPreferences.getString("pref_theme", "0"))) {
+            this.finish();
+            this.startActivity(new Intent(this, this.getClass()));
+            return;
+        }
+
+
 
         // Load ArrayAdapter
         arrayAdapter = new DMXAdapter(this, mAddressArray, mBitArray);
@@ -202,9 +210,9 @@ public class MainActivity
         listView.setAdapter(arrayAdapter);
 
         //TODO: Make these the correct type, and make a pref class to take care of all of this.
-        String pref_vib = sharedPreferences.getString("pref_vib", "0");
-        String pref_addr = sharedPreferences.getString("pref_addr", "0");
-        String pref_offset2 = sharedPreferences.getString("pref_offset2", "0");
+        String pref_vib = mSharedPreferences.getString("pref_vib", "0");
+        String pref_addr = mSharedPreferences.getString("pref_addr", "0");
+        String pref_offset2 = mSharedPreferences.getString("pref_offset2", "0");
 
         if (pref_offset2.equals("0")) {
             mOffset = false;
@@ -214,8 +222,8 @@ public class MainActivity
             mLastAddress = 512;
         }
 
-        int pref_start = sharedPreferences.getInt("pref_start", mFirstAddress);
-        int pref_span = sharedPreferences.getInt("pref_span", 1);
+        int pref_start = mSharedPreferences.getInt("pref_start", mFirstAddress);
+        int pref_span = mSharedPreferences.getInt("pref_span", 1);
 
 
         // Load Vibration from preferences
@@ -424,7 +432,7 @@ public class MainActivity
             return;
         Log.v("input", "start.count:" + start + "." + span);
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putInt("pref_start", start);
         editor.putInt("pref_span", span);
         editor.commit();
@@ -479,8 +487,8 @@ public class MainActivity
     public void buildIntent(){
         if (mShareIntent == null)
             return;
-        int pref_start = sharedPreferences.getInt("pref_start", mFirstAddress);
-        int pref_span = sharedPreferences.getInt("pref_span", 1);
+        int pref_start = mSharedPreferences.getInt("pref_start", mFirstAddress);
+        int pref_span = mSharedPreferences.getInt("pref_span", 1);
 
         mShareIntent.putExtra(Intent.EXTRA_SUBJECT, "AndroDip - Start:" + pref_start + " Span:" + pref_span);
 

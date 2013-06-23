@@ -35,5 +35,4 @@
             android:key="pref_theme"
             android:summary="@string/pref_theme_summary"
             android:title="@string/pref_theme"/>
-
 </PreferenceScreen>
