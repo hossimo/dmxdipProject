@@ -195,13 +195,12 @@ public class MainActivity
         Log.v("lifeCycle", "onStart");
         super.onStart();
 
+        // Load the correct Theme.
         if (mThemeManager.getInt() != Integer.parseInt(mSharedPreferences.getString("pref_theme", "0"))) {
             this.finish();
             this.startActivity(new Intent(this, this.getClass()));
             return;
         }
-
-
 
         // Load ArrayAdapter
         arrayAdapter = new DMXAdapter(this, mAddressArray, mBitArray);
@@ -225,6 +224,8 @@ public class MainActivity
         int pref_start = mSharedPreferences.getInt("pref_start", mFirstAddress);
         int pref_span = mSharedPreferences.getInt("pref_span", 1);
 
+        if (pref_start > mLastAddress)
+            pref_start = mLastAddress;
 
         // Load Vibration from preferences
         if (pref_vib.equals("0"))
