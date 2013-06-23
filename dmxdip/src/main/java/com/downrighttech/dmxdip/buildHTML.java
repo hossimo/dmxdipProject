@@ -39,8 +39,11 @@ public class buildHTML {
 
     public String getText(){
         int count = mAddress.size();
+        final int rowSize = 16;
+        final int headerSize = 32;
+        final int footerSize = 150;
 
-        StringBuilder sb = new StringBuilder((count+2)*16);
+        StringBuilder sb = new StringBuilder(headerSize + (count * rowSize) + footerSize);
 
         sb.append("DMX : ADDRESS  \n"); //16
         sb.append("--- : ---------\n"); //16
@@ -54,6 +57,9 @@ public class buildHTML {
             sb.append(mBits.get(i).toString());
             sb.append("\n");
         }
+        sb.append("--\nAndroDip for Android\n"); //24
+        sb.append("Download and Comment From the Google Play Store\n"); //48
+        sb.append("http://play.google.com/store/apps/details?id=com.downrighttech.dmxdip\n"); //70
         return sb.toString();
     }
 }
