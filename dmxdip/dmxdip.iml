@@ -3,8 +3,8 @@
   <component name="FacetManager">
     <facet type="android" name="Android">
       <configuration>
-        <option name="SELECTED_BUILD_VARIANT" value="release" />
-        <option name="ASSEMBLE_TASK_NAME" value="assembleRelease" />
+        <option name="SELECTED_BUILD_VARIANT" value="debugRelease" />
+        <option name="ASSEMBLE_TASK_NAME" value="assembleDebugRelease" />
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
@@ -20,11 +20,11 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/build/source/r/release" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/source/aidl/release" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/source/rs/release" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/source/buildConfig/release" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/res/rs/release" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/source/r/debugRelease" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/source/aidl/debugRelease" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/source/rs/debugRelease" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/source/buildConfig/debugRelease" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/res/rs/debugRelease" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/release/aidl" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/release/assets" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/release/java" isTestSource="false" />
