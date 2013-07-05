@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">AndroDip</string>
+    <string name="string_version">1.5</string>
     <string name="action_settings">Settings</string>
     <string name="dip_sw_1">1</string>
     <string name="dip_sw_2">2</string>
@@ -32,7 +33,6 @@
 
     <string name="pref_addr">Address Display</string>
     <string name="pref_addr_summary">Display Switch or Address Values</string>
-    <string name="string_version">1.2</string>
     <string name="about_new">Whats New</string>
     <string name="about_new_details">
         <b>➣</b>
@@ -103,4 +103,8 @@
         <item>1</item>
     </string-array>
 
+    <string name="dialog_message">Hello</string>
+    <string name="dialog_yes">Rate &amp; Review</string>
+    <string name="dialog_no">No Thanks</string>
+    <string name="dialog_maybe">Not Now</string>
 </resources>
