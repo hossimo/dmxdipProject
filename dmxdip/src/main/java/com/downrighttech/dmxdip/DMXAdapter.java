@@ -87,8 +87,10 @@ public class DMXAdapter extends BaseAdapter {
             mHolder.tva[7] = (TextView) convertView.findViewById(R.id.ToggleButton08);
             mHolder.tva[8] = (TextView) convertView.findViewById(R.id.ToggleButton09);
 
-            mHolder.button_on = mContext.getResources().getDrawable(R.drawable.buttons_half_on_30x30);
-            mHolder.button_off = mContext.getResources().getDrawable(R.drawable.buttons_half_off_30x30);
+            mHolder.button_on = mContext.getResources().getDrawable(R.drawable.button_on);
+            mHolder.button_off = mContext.getResources().getDrawable(R.drawable.button_off);
+            mHolder.button_on.setAlpha(130);
+            mHolder.button_off.setAlpha(130);
 
             convertView.setTag(mHolder);
         } else
@@ -96,8 +98,12 @@ public class DMXAdapter extends BaseAdapter {
 
         String bin = mBits.get(index);
 
+        // Set Fonts for Address and Bits
         mHolder.address.setTypeface(tf);
-        //
+        for (int i=0 ; i <= 8 ; i++){
+            mHolder.tva[i].setTypeface(tf);
+        }
+
         mHolder.address.setGravity(Gravity.RIGHT);
         mHolder.address.setText(String.format("%3s", mStart.get(index)) + ":");
 

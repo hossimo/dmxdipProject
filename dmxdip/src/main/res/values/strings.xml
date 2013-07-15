@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">AndroDip</string>
-    <string name="string_version">1.5</string>
+    <string name="version">1.5</string>
     <string name="action_settings">Settings</string>
     <string name="dip_sw_1">1</string>
     <string name="dip_sw_2">2</string>
@@ -103,8 +103,17 @@
         <item>1</item>
     </string-array>
 
-    <string name="dialog_message">Hello</string>
-    <string name="dialog_yes">Rate &amp; Review</string>
+    <string name="dialog_about_message"><![CDATA[
+    New in this version:\n
+     ● Optimizations to make the app smaller and faster.\n
+     ● Fixed some graphical/font issues.\n
+     \n
+     Thanks for using our app and please rate us on the Google Play Store, feedback is always welcome.\n
+     ]]></string>
+    <string name="dialog_yes">Rate</string>
+    <string name="dialog_playstore">Play Store</string>
     <string name="dialog_no">No Thanks</string>
     <string name="dialog_maybe">Not Now</string>
+    <string name="dialog_close">Close</string>
+
 </resources>

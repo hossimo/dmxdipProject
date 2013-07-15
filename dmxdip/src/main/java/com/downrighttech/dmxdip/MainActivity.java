@@ -16,17 +16,19 @@
 package com.downrighttech.dmxdip;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,17 +40,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import java.util.ArrayList;
-//import android.preference.Preference;
-//import java.io.FileOutputStream;
-//import java.io.FileNotFoundException;
-//import java.io.IOException;
-//import android.preference.PreferenceManager;
 import android.content.Context;
 
 
 public class MainActivity
-        extends Activity
-        implements OnClickListener, TextWatcher {
+        extends FragmentActivity
+        implements OnClickListener,
+        TextWatcher,
+        DialogManager.DialogManagerListener {
+    private static final String TAG = "MainActivity";
     private EditText editText_Start;
     private EditText editText_Span;
     private ImageButton clearButton;
@@ -68,9 +68,7 @@ public class MainActivity
     private boolean mOffset;
     private Intent mShareIntent;
     private ThemeManager mThemeManager;
-
-    //private FileOutputStream fileOS;
-    //private Preference preference;
+    private DialogManager mDialogManager;
 
 
     // Constants
@@ -78,6 +76,8 @@ public class MainActivity
     private final int mFirstAddress = 1;
     private int VIB_TIME = 10;
     private final String FILENAME = "AndroDip.html";
+    private final int DIALOG_RECOUNT = 5;
+
 
     //TODO: Delete share_text.txt if exists
 
@@ -123,8 +123,8 @@ public class MainActivity
         setContentView(R.layout.activity_main);
 
         //Load Resources
-        button_on = getResources().getDrawable(R.drawable.buttons_on_30x30);
-        button_off = getResources().getDrawable(R.drawable.buttons_off_30x30);
+        button_on = getResources().getDrawable(R.drawable.button_on);
+        button_off = getResources().getDrawable(R.drawable.button_off);
 
         // Load Interface Items
         editText_Start = (EditText) findViewById(R.id.editText_Start);
@@ -166,6 +166,35 @@ public class MainActivity
         editText_Span.addTextChangedListener(this);
         clearButton.setOnClickListener(this);
 
+        // What's New Count
+        int dialogCount = mSharedPreferences.getInt("pref_startup_dialog", 0);
+
+        // If this is a new version, show the Dialog again
+        String lastRunVersion = mSharedPreferences.getString("pref_version","");
+        String savedString = getString(R.string.version);
+        if (!lastRunVersion.equals(savedString)){
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putString("pref_version", getString(R.string.version));
+            editor.commit();
+            dialogCount = 0;
+        }
+
+        // If the dialog is due to be shown
+        Log.v(TAG, "onCreate dialogCount:"+dialogCount);
+        if (dialogCount == 0) {
+            mDialogManager = new DialogManager(this);
+            mDialogManager.setmIcon(R.drawable.ic_launcher);
+            mDialogManager.setTitle(getText(R.string.app_name) + " - " + getText(R.string.version));
+            mDialogManager.setMessage(R.string.dialog_about_message);
+            mDialogManager.setPositiveButton(R.string.dialog_yes);
+            mDialogManager.setNeutralButton(R.string.dialog_maybe);
+            mDialogManager.show(getSupportFragmentManager(),"What's New");
+        }
+        else if (dialogCount > 0) {
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putInt("pref_startup_dialog", --dialogCount);
+            editor.commit();
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -192,7 +221,7 @@ public class MainActivity
 
     @Override
     protected void onStart() {
-        Log.v("lifeCycle", "onStart");
+        Log.v(TAG, "onStart");
         super.onStart();
 
         // Load the correct Theme.
@@ -241,7 +270,7 @@ public class MainActivity
                 toggleButton[i].setText(getString(BUTTON_TEXT_ADDR[i]));
                 toggleButton[i].setTextOn(getString(BUTTON_TEXT_ADDR[i]));
                 toggleButton[i].setTextOff(getString(BUTTON_TEXT_ADDR[i]));
-                toggleButton[i].setTextSize(18);
+                toggleButton[i].setTextSize(16);
             }
         } else {
             for (int i = 0; i < ADDRESS_BUTTONS; i++) {
@@ -274,7 +303,7 @@ public class MainActivity
 
     @Override
     protected void onPause() {
-        Log.v("lifeCycle", "onPause");
+        Log.v(TAG, "onPause");
         super.onPause();
     }
 
@@ -299,7 +328,7 @@ public class MainActivity
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.v("lifeCycle", "onCreateOptionsMenu-" + menu.toString());
+        Log.v(TAG, "onCreateOptionsMenu-" + menu.toString());
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
@@ -322,21 +351,66 @@ public class MainActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.v("lifeCycle", "onOptionsItemSelected");
+        Log.v(TAG, "onOptionsItemSelected");
         Intent intent;
         switch (item.getItemId()) {
             case R.id.menuSettings:
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
-//            case R.id.menuAbout:
-//                intent = new Intent(this, AboutActivity.class);
-//                startActivity(intent);
-//                return true;
+            case R.id.menuAbout:
+                mDialogManager = new DialogManager(this);
+
+                mDialogManager.setmIcon(R.drawable.ic_launcher);
+                mDialogManager.setMessage(R.string.dialog_about_message);
+                mDialogManager.setTitle(getText(R.string.app_name) + " - " + getText(R.string.version));
+                mDialogManager.setPositiveButton(R.string.dialog_yes);
+                mDialogManager.setNeutralButton(R.string.dialog_close);
+                mDialogManager.show(getSupportFragmentManager(),"About");
+
+                return true;
         }
         return false;
     }
 
+    /**
+     * Dialog Callback for a positive click
+     * @param dialog a DialogFragment
+     */
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt("pref_startup_dialog", -1);
+        editor.commit();
+
+        // Open the Market
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=com.downrighttech.dmxdip"));
+        startActivity(intent);
+
+    }
+
+    /**
+     * Dialog Callback for a negative click
+     * @param dialog a DialogFragment
+     */
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt("pref_startup_dialog", 5);
+        editor.commit();
+    }
+
+    /**
+     * Dialog Callback for a neutral click
+     * @param dialog a DialogFragment
+     */
+    @Override
+    public void onDialogNeutralClick(DialogFragment dialog) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt("pref_startup_dialog", 5);
+        editor.commit();
+    }
 
     private String swapBin(int input, int length) {
         String bin = Integer.toBinaryString(input);
@@ -398,7 +472,7 @@ public class MainActivity
 
     @Override
     public void afterTextChanged(Editable s) {
-        Log.v("afterTextChanged", s.toString());
+        Log.v(TAG, "afterTextChanged" + s.toString());
         int start = mFirstAddress;
         int span = 1;
 
@@ -431,7 +505,7 @@ public class MainActivity
 
         if (mSkipProcess)
             return;
-        Log.v("input", "start.count:" + start + "." + span);
+        Log.v(TAG, "input: " + start + "." + span);
 
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putInt("pref_start", start);
