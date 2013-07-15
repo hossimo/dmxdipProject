@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android'
+
+dependencies {
+    compile files('libs/android-support-v4.jar')
+}
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 17
+    }
+    //Load signingConfigs from private.gradle
+    apply from: 'private.gradle'
+    buildTypes {
+        debug {
+            packageNameSuffix ".debug"
+        }
+        release {
+            debuggable false
+            signingConfig signingConfigs.release
+        }
+        debugRelease.initWith(buildTypes.release)
+        debugRelease {
+            debuggable true
+            packageNameSuffix '.debugrelease'
+            signingConfig signingConfigs.release
+        }
+    }
+
+//    sourceSets.debugRelease.setRoot('src/release')
+}

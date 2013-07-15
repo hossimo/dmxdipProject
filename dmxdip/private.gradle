@@ -1,0 +1,10 @@
+android {
+    signingConfigs {
+        release {
+            storeFile file("../../keystore")
+            storePassword "<redacted>"
+            keyAlias "dmxdip"
+            keyPassword "<redacted>"
+        }
+    }
+}
