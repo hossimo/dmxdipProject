@@ -1,8 +1,5 @@
 package com.downrighttech.dmxdip;
 
-import android.os.AsyncTask;
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**

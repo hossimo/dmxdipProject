@@ -7,14 +7,12 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 
@@ -29,6 +27,10 @@ public class DMXAdapter extends BaseAdapter {
     private SharedPreferences mSharedPreferences;
     private ViewHolder mHolder;
     private String pref_addr;
+    private int mSpan;
+    private boolean mOffset;
+
+    private final int DMX_LENGTH = 512;
     //private String pref_offset2;
     //private boolean mOffset;
 
@@ -76,6 +78,7 @@ public class DMXAdapter extends BaseAdapter {
                 convertView = inflater.inflate(R.layout.dmx_adapter_layout_bit, null);
 
             mHolder.tva = new TextView[9];
+            mHolder.detail = (View) convertView.findViewById(R.id.detail);
             mHolder.address = (TextView) convertView.findViewById(R.id.textView1);
             mHolder.tva[0] = (TextView) convertView.findViewById(R.id.ToggleButton01);
             mHolder.tva[1] = (TextView) convertView.findViewById(R.id.ToggleButton02);
@@ -86,6 +89,7 @@ public class DMXAdapter extends BaseAdapter {
             mHolder.tva[6] = (TextView) convertView.findViewById(R.id.ToggleButton07);
             mHolder.tva[7] = (TextView) convertView.findViewById(R.id.ToggleButton08);
             mHolder.tva[8] = (TextView) convertView.findViewById(R.id.ToggleButton09);
+            mHolder.error = (TextView) convertView.findViewById(R.id.error);
 
             mHolder.button_on = mContext.getResources().getDrawable(R.drawable.button_on);
             mHolder.button_off = mContext.getResources().getDrawable(R.drawable.button_off);
@@ -132,7 +136,26 @@ public class DMXAdapter extends BaseAdapter {
             for ( ; i < 9 ; i++)
                 mHolder.tva[i].setBackgroundDrawable(mHolder.button_off);
         }
+
+        if (mStart.get(index) + mSpan - 1 > DMX_LENGTH) {
+            int over = (mStart.get(index) + mSpan - 1) - DMX_LENGTH;
+            mHolder.error.setVisibility(View.VISIBLE);
+            mHolder.error.setText(mStart.get(index) + " Missing " + over + " channel" + (over>1?"s":""));
+            mHolder.detail.setBackgroundColor(mContext.getResources().getColor(R.color.background_error));
+        }
+        else {
+            mHolder.error.setVisibility(View.GONE);
+            mHolder.detail.setBackgroundColor(android.R.color.transparent);
+        }
         return convertView;
+    }
+
+    public void setSpan(int span){
+        mSpan = span;
+    }
+
+    public void setOffset (boolean offset){
+        mOffset = offset;
     }
 
     static class ViewHolder {
@@ -140,5 +163,7 @@ public class DMXAdapter extends BaseAdapter {
         TextView tva[];
         Drawable button_on;
         Drawable button_off;
+        TextView error;
+        View detail;
     }
 }

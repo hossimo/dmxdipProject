@@ -297,7 +297,7 @@ public class MainActivity
         updateArray(pref_start, pref_span);
         updateButtons();
         buildChart();
-        //buildIntent();
+        buildIntent();
     }
 
 
@@ -405,7 +405,7 @@ public class MainActivity
      */
     @Override
     public void onDialogNeutralClick(DialogFragment dialog) {
-        int count = mSharedPreferences.getInt("pref_startup_dialog",0);
+        int count = mSharedPreferences.getInt("pref_startup_dialog", 0);
         Log.v(TAG,"onDialogNeutralClick");
 
         if (count==0){
@@ -558,6 +558,11 @@ public class MainActivity
     }
 
     public void buildChart() {
+        int span = 1;
+        if (editText_Span.getText().length()>0)
+            span = Integer.parseInt(editText_Span.getText().toString());
+        arrayAdapter.setSpan(span);
+        arrayAdapter.setOffset(mOffset);
         arrayAdapter.notifyDataSetChanged();
         listView.setSelection(0);
     }
