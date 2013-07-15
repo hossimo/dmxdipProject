@@ -396,9 +396,7 @@ public class MainActivity
      */
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putInt("pref_startup_dialog", 5);
-        editor.commit();
+
     }
 
     /**
@@ -407,9 +405,14 @@ public class MainActivity
      */
     @Override
     public void onDialogNeutralClick(DialogFragment dialog) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putInt("pref_startup_dialog", 5);
-        editor.commit();
+        int count = mSharedPreferences.getInt("pref_startup_dialog",0);
+        Log.v(TAG,"onDialogNeutralClick");
+
+        if (count==0){
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putInt("pref_startup_dialog", 5);
+            editor.commit();
+        }
     }
 
     private String swapBin(int input, int length) {
