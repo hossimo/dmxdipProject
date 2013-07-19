@@ -17,6 +17,7 @@ package com.downrighttech.dmxdip;
 
 import android.annotation.TargetApi;
 import android.app.Service;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -75,33 +76,7 @@ public class MainActivity
     private final int ADDRESS_BUTTONS = 9;
     private final int mFirstAddress = 1;
     private int VIB_TIME = 10;
-    private final String FILENAME = "AndroDip.html";
     private final int DIALOG_RECOUNT = 5;
-
-
-    //TODO: Delete share_text.txt if exists
-
-    // TODO: Make this a fragment?
-    private final int BUTTON_TEXT_ADDR[] = {
-            R.string.dip_addr_1,
-            R.string.dip_addr_2,
-            R.string.dip_addr_3,
-            R.string.dip_addr_4,
-            R.string.dip_addr_5,
-            R.string.dip_addr_6,
-            R.string.dip_addr_7,
-            R.string.dip_addr_8,
-            R.string.dip_addr_9};
-    private final int BUTTON_TEXT_SW[] = {
-            R.string.dip_sw_1,
-            R.string.dip_sw_2,
-            R.string.dip_sw_3,
-            R.string.dip_sw_4,
-            R.string.dip_sw_5,
-            R.string.dip_sw_6,
-            R.string.dip_sw_7,
-            R.string.dip_sw_8,
-            R.string.dip_sw_9};
 
     public MainActivity() {
         mSkipProcess = true;
@@ -263,20 +238,25 @@ public class MainActivity
             VIB_TIME = 30;
         else if (pref_vib.equals("2"))
             VIB_TIME = 90;
+        else if (pref_vib.equals("3"))
+            VIB_TIME = 0;
 
         //Load Button Text
         if (pref_addr.equals("1")) {
+            int display = 1;
             for (int i = 0; i < ADDRESS_BUTTONS; i++) {
-                toggleButton[i].setText(getString(BUTTON_TEXT_ADDR[i]));
-                toggleButton[i].setTextOn(getString(BUTTON_TEXT_ADDR[i]));
-                toggleButton[i].setTextOff(getString(BUTTON_TEXT_ADDR[i]));
-                toggleButton[i].setTextSize(16);
+                toggleButton[i].setText(Integer.toString(display));
+                toggleButton[i].setTextOn(Integer.toString(display));
+                toggleButton[i].setTextOff(Integer.toString(display));
+                toggleButton[i].setTextSize(14);
+                display = display << 1;
             }
-        } else {
+        }
+        else {
             for (int i = 0; i < ADDRESS_BUTTONS; i++) {
-                toggleButton[i].setText(getString(BUTTON_TEXT_SW[i]));
-                toggleButton[i].setTextOn(getString(BUTTON_TEXT_SW[i]));
-                toggleButton[i].setTextOff(getString(BUTTON_TEXT_SW[i]));
+                toggleButton[i].setText(Integer.toString(i + 1));
+                toggleButton[i].setTextOn(Integer.toString(i + 1));
+                toggleButton[i].setTextOff(Integer.toString(i + 1));
                 toggleButton[i].setTextSize(36);
             }
         }
@@ -332,9 +312,8 @@ public class MainActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
+        MenuItem shareMenuItem = menu.findItem(R.id.menu_share);
         if (VERSION.SDK_INT >= 14) {
-            //get xlm menu item (
-            MenuItem shareMenuItem = menu.findItem(R.id.menu_share);
 
             // get Action Provider from XML
             mShareActionProvider = (ShareActionProvider) shareMenuItem.getActionProvider();
@@ -342,10 +321,10 @@ public class MainActivity
             //Setup shareIntent
             mShareIntent = new Intent(Intent.ACTION_SEND);
             mShareIntent.setType("text/plain");
-
-            //buildIntent();
-            //mShareActionProvider.setShareIntent(mShareIntent);
         }
+        else
+            shareMenuItem.setVisible(false);
+
         return true;
     }
 
@@ -386,8 +365,13 @@ public class MainActivity
         // Open the Market
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("market://details?id=com.downrighttech.dmxdip"));
-        startActivity(intent);
+        try {
+            startActivity(intent);
 
+        } catch (ActivityNotFoundException e) {
+            intent.setData(Uri.parse("http://play.google.com/store/apps/details?id=com.downrighttech.dmxdip"));
+            startActivity(intent);
+        }
     }
 
     /**
@@ -410,7 +394,7 @@ public class MainActivity
 
         if (count==0){
             SharedPreferences.Editor editor = mSharedPreferences.edit();
-            editor.putInt("pref_startup_dialog", 5);
+            editor.putInt("pref_startup_dialog", DIALOG_RECOUNT);
             editor.commit();
         }
     }

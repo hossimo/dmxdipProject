@@ -56,11 +56,13 @@
         <item>Short</item>
         <item>Medium</item>
         <item>Long</item>
+        <item>Off</item>
     </string-array>
     <string-array name="pref_vib_list_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
     <string-array name="pref_theme_list_titles">
         <item>Light</item>
@@ -82,8 +84,10 @@
     <string name="dialog_about_message">
 <![CDATA[
     New in this version:\n
-     ● Optimizations to make the app smaller and faster.\n
+     ● A warning is shown for address without enough channels.\n
+     ● Added option to turn off vibration.\n
      ● Fixed some graphical/font issues.\n
+     ● Optimizations and bug fixes.\n
      \n
      Thanks for using our app and please rate us on the Google Play Store, feedback is always welcome.\n
      ]]>

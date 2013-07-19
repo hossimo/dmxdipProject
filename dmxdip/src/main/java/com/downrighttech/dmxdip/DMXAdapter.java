@@ -72,10 +72,7 @@ public class DMXAdapter extends BaseAdapter {
         mHolder = new ViewHolder();
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (pref_addr.equals("0"))
-                convertView = inflater.inflate(R.layout.dmx_adapter_layout, null);
-            else
-                convertView = inflater.inflate(R.layout.dmx_adapter_layout_bit, null);
+            convertView = inflater.inflate(R.layout.dmx_adapter_layout, null);
 
             mHolder.tva = new TextView[9];
             mHolder.detail = (View) convertView.findViewById(R.id.detail);
@@ -102,10 +99,21 @@ public class DMXAdapter extends BaseAdapter {
 
         String bin = mBits.get(index);
 
-        // Set Fonts for Address and Bits
+        // Set Fonts for Address
         mHolder.address.setTypeface(tf);
-        for (int i=0 ; i <= 8 ; i++){
+        for (int i=0 ; i <= 8 ; i++)
             mHolder.tva[i].setTypeface(tf);
+
+        // If displaying addresses resize fonts and update text
+        if (! pref_addr.equals("0")) {
+            int display = 1;
+            mHolder.address.setTextSize(20);
+            for (int i=0 ; i <= 8 ; i++){
+                mHolder.tva[i].setTypeface(tf);
+                mHolder.tva[i].setTextSize(11);
+                mHolder.tva[i].setText(Integer.toString(display));
+                display = display << 1;
+            }
         }
 
         mHolder.address.setGravity(Gravity.RIGHT);
