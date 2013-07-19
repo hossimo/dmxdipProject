@@ -8,7 +8,7 @@
         android:minSdkVersion="10"
         android:targetSdkVersion="17" />
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -25,12 +25,16 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="com.downrighttech.dmxdip.SettingsActivity"
-                android:label="@string/title_activity_settings"
-                android:parentActivityName="com.downrighttech.dmxdip.MainActivity">
+            android:name="com.downrighttech.dmxdip.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.downrighttech.dmxdip.MainActivity" >
             <intent-filter>
-                <category android:name="android.intent.category.PREFERENCE"/>
+                <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.downrighttech.dmxdip.OhmActivity"
+            android:label="@string/title_activity_ohm" >
         </activity>
     </application>
 
