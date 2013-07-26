@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">AndroDip</string>
-    <string name="version">1.6</string>
+    <string name="version">1.6.1</string>
     <string name="action_settings">Settings</string>
     <string name="dip_sw_1">1</string>
     <string name="dip_sw_2">2</string>
@@ -80,6 +80,7 @@
         <item>0</item>
         <item>1</item>
     </string-array>
+    <string name="app_not_available">We Can\'t open the App Store ;-(</string>
 
     <string name="dialog_about_message">
 <![CDATA[

@@ -17,8 +17,8 @@ package com.downrighttech.dmxdip;
 
 import android.annotation.TargetApi;
 import android.app.Service;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.ComponentName;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -363,15 +363,23 @@ public class MainActivity
         editor.commit();
 
         // Open the Market
+        boolean validIntent = false;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("market://details?id=com.downrighttech.dmxdip"));
-        try {
-            startActivity(intent);
-
-        } catch (ActivityNotFoundException e) {
+        ComponentName str = intent.resolveActivity(getPackageManager());
+        if (intent.resolveActivity(getPackageManager()) != null)
+            validIntent=true;
+        else{
             intent.setData(Uri.parse("http://play.google.com/store/apps/details?id=com.downrighttech.dmxdip"));
-            startActivity(intent);
+            str = intent.resolveActivity(getPackageManager());
+            if (intent.resolveActivity(getPackageManager()) != null)
+                validIntent=true;
         }
+
+        if (validIntent)
+            startActivity(intent);
+        else
+            Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_SHORT).show();
     }
 
     /**
